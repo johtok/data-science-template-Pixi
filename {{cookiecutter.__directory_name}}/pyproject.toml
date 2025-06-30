@@ -1,22 +1,22 @@
-{%- if cookiecutter.dependency_manager == "poetry" %}
-[tool.poetry]
+{%- if cookiecutter.dependency_manager == "pixi" %}
+[project]
 name = "{{ cookiecutter.__directory_name }}"
 version = "0.1.0"
 description = ""
 authors = ["{{ cookiecutter.author_name }}"]
 
-[tool.poetry.dependencies]
+[tool.pixi.dependencies]
 python = "{{ cookiecutter.compatible_python_versions }}"
 hydra-core = "^1.3.2"
 
-[tool.poetry.group.dev.dependencies]
+[tool.pixi.feature.dev.dependencies]
 pdoc3 = "^0.11.6"
 pytest = "^8.3.5"
 pre-commit = "^4.2.0"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+build-backend = "hatchling.build"
+requires = ["hatchling"]
 {% elif cookiecutter.dependency_manager == "uv" %}
 [project]
 name = "{{ cookiecutter.__directory_name }}"

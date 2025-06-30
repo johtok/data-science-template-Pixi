@@ -5,8 +5,8 @@
 * [hydra](https://hydra.cc/): Manage configuration files - [article](https://codecut.ai/stop-hard-coding-in-a-data-science-project-use-configuration-files-instead/)
 * [pdoc](https://github.com/pdoc3/pdoc): Automatically create an API documentation for your project
 * [pre-commit plugins](https://pre-commit.com/): Automate code reviewing formatting
-{%- if cookiecutter.dependency_manager == "poetry" %}
-* [Poetry](https://towardsdatascience.com/how-to-effortlessly-publish-your-python-package-to-pypi-using-poetry-44b305362f9f): Dependency management - [article](https://codecut.ai/poetry-a-better-way-to-manage-python-dependencies/)
+{%- if cookiecutter.dependency_manager == "pixi" %}
+* [Pixi](httos://pixi.sh): Dependency management
 {%- elif cookiecutter.dependency_manager == "uv" %}
 * [uv](https://github.com/astral-sh/uv): Ultra-fast Python package installer and resolver
 {%- endif %}
@@ -33,9 +33,9 @@
 ├── notebooks                       # store notebooks
 {%- if cookiecutter.dependency_manager == "pip" %}
 ├── pyproject.toml                  # Configure black
-{%- elif cookiecutter.dependency_manager == "poetry" %}
+{%- elif cookiecutter.dependency_manager == "pixi" %}
 ├── .pre-commit-config.yaml         # configurations for pre-commit
-├── pyproject.toml                  # dependencies for poetry
+├── pyproject.toml                  # dependencies for pixi
 {%- elif cookiecutter.dependency_manager == "uv" %}
 ├── .pre-commit-config.yaml         # configurations for pre-commit
 ├── .python-version                 # specify Python version for the project
@@ -87,36 +87,33 @@ git push -u origin main
 
 ## Set up the environment
 
-{%- if cookiecutter.dependency_manager == "poetry" %}
-1. Install [Poetry](https://python-poetry.org/docs/#installation)
+{%- if cookiecutter.dependency_manager == "pixi" %}
+1. Install [Pixi](https://pixi.sh)
 
 2. Activate the virtual environment:
 
 ```bash
-poetry shell
+pixi shell
 ```
 
-3. Install dependencies:
+3. activation of other environments:
 
-- To install all dependencies from pyproject.toml, run:
+- To check available environment:
 
 ```bash
-poetry install
+pixi status
 ```
 
-- To install only production dependencies, run:
-
+- To run an environment run:
 ```bash
-poetry install --only main
+pixi s -e ENVIRONTMENT
 ```
-
-Note: To follow the rest of the instructions in this README (including running tests, generating documentation, and using pre-commit hooks), it is recommended to install all dependencies using `poetry install`.
 
 4. Run Python scripts:
 
 ```bash
-# Run directly with poetry
-poetry run python src/process.py
+# Run directly with pixi
+pixi run python src/process.py
 
 # Or after activating the virtual environment
 python src/process.py
@@ -192,10 +189,10 @@ python3 src/process.py
 
 ## Set up pre-commit hooks
 
-{%- if cookiecutter.dependency_manager == "poetry" %}
+{%- if cookiecutter.dependency_manager == "pixi" %}
 Set up pre-commit:
 ```bash
-poetry run pre-commit install
+pixi run pre-commit install
 ```
 {%- elif cookiecutter.dependency_manager == "uv" %}
 Set up pre-commit:
@@ -222,9 +219,9 @@ The project uses Hydra to manage configurations. You can view and modify these c
 
 To view available configurations:
 
-{%- if cookiecutter.dependency_manager == "poetry" %}
+{%- if cookiecutter.dependency_manager == "pixi" %}
 ```bash
-poetry run python src/process.py --help
+pixi run python src/process.py --help
 ```
 {%- elif cookiecutter.dependency_manager == "uv" %}
 ```bash
@@ -265,9 +262,9 @@ data:
 
 To override configurations (for example, changing the input data file):
 
-{%- if cookiecutter.dependency_manager == "poetry" %}
+{%- if cookiecutter.dependency_manager == "pixi" %}
 ```bash
-poetry run python src/process.py data.raw=sample2.csv
+pixi run python src/process.py data.raw=sample2.csv
 ```
 {%- elif cookiecutter.dependency_manager == "uv" %}
 ```bash
@@ -290,15 +287,15 @@ You can override any configuration value shown in the help output. Multiple over
 
 ## Auto-generate API documentation
 
-{%- if cookiecutter.dependency_manager == "poetry" %}
+{%- if cookiecutter.dependency_manager == "pixi" %}
 Generate static documentation:
 ```bash
-poetry run pdoc src -o docs
+pixi run pdoc src -o docs
 ```
 
 Start documentation server (available at http://localhost:8080):
 ```bash
-poetry run pdoc src --http localhost:8080
+pixi run pdoc src --http localhost:8080
 ```
 {%- elif cookiecutter.dependency_manager == "uv" %}
 Generate static documentation:
